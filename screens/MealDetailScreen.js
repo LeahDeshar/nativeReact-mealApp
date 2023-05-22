@@ -3,26 +3,41 @@ import { MEALS } from '../data/dummy-data';
 import MealDetails from '../components/MealDetails';
 import Subtitle from '../components/MealDetail/Subtitle';
 import List from '../components/MealDetail/List';
-import { useLayoutEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import IconButton from '../components/IconButton';
+import { FavoritesContext } from '../store/context/favoritesContext';
 
 function MealDetailScreen({ route,navigation }) {
+    const favoriteMealsCtx =useContext(FavoritesContext);
+
+    
     const mealId = route.params.mealId;
     const seletedMeal = MEALS.find((meal) => meal.id === mealId);
 
-    function headerButtonPressedHandler()
+   
+
+    const mealIsFavorite = favoriteMealsCtx.ids.includes(mealId); 
+
+    function changeFavoriteStatusHandler()
     {
-      console.log("Pressed");
+        if(mealIsFavorite)
+        {
+          favoriteMealsCtx.removeFavorite(mealId);
+        }
+        else 
+        {
+          favoriteMealsCtx.addFavorite(mealId);
+        }
     }
     useLayoutEffect(()=>
     {
       navigation.setOptions({
         headerRight: () =>{
-          return <IconButton icon={"star"} onPress={headerButtonPressedHandler}/>
+          return (<IconButton icon={mealIsFavorite ? 'star' : 'star-outline'} onPress={changeFavoriteStatusHandler}/>)
         }
 
       });
-    },[navigation,headerButtonPressedHandler]);
+    },[navigation,changeFavoriteStatusHandler]);
   return (
       <ScrollView style={styles.rootContainer}>
         <Image style={styles.image} source={{uri: seletedMeal.imageUrl}}/>
@@ -31,10 +46,6 @@ function MealDetailScreen({ route,navigation }) {
        textStyle={styles.detailText}
        affordability={seletedMeal.affordability}/>
 
-
-        {/* <View style={styles.subtitleContainer}>
-              <Text style={styles.subtitle}>Ingredients</Text>
-        </View> */}
         <View style={styles.listOuterContianer}>
           <View style={styles.listContainer}>
             <Subtitle>Ingredients</Subtitle>
@@ -43,22 +54,7 @@ function MealDetailScreen({ route,navigation }) {
             <List data={seletedMeal.steps}/>
 
           </View>
-
         </View>
-            {/* {seletedMeal.ingredients.map((ingredient) =>
-            (
-                <Text key={ingredient}>{ingredient}</Text>
-            ))} */}
-           
-
-            {/* <View style={styles.subtitleContainer}>
-                 <Text style={styles.subtitle}>Steps</Text>
-            </View> */}
-            {/* {seletedMeal.steps.map((step) =>
-            (
-                <Text key={step}>{step}</Text>
-            ))} */}
-    
     </ScrollView>
   )
 }

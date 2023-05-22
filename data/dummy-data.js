@@ -2,10 +2,13 @@ import Category from '../model/category';
 import Meal from '../model/meal';
 
 export const CATEGORIES = [
-  new Category('c1', 'Italian', '#f5428d'),
-  new Category('c2', 'Quick & Easy', '#f54242'),
-  new Category('c3', 'Hamburgers', '#f5a442'),
-  new Category('c4', 'German', '#f5d142'),
+ 
+  new Category('c1', 'Italian','#957777' ),
+
+  // new Category('c1', 'Italian', 'linear-gradient(to right, #085078, #85d8ce)'),
+  new Category('c2', 'Quick & Easy', '#D21312'),
+  new Category('c3', 'Hamburgers', '#C69749'),
+  new Category('c4', 'German', '#ECB365'),
   new Category('c5', 'Light & Lovely', '#368dff'),
   new Category('c6', 'Exotic', '#41d95d'),
   new Category('c7', 'Breakfast', '#9eecff'),

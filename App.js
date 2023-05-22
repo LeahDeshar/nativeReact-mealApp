@@ -8,6 +8,9 @@ import MealDetailScreen from './screens/MealDetailScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import FavoriteScreen from './screens/FavoriteScreen';
 import { Ionicons } from '@expo/vector-icons';
+import FavoritesContextProvider from './store/context/favoritesContext';
+import React from 'react';
+// import { FavoritesContextProvider } from './store/context/favorites-context';
 
 
 const Stack = createNativeStackNavigator();
@@ -48,6 +51,7 @@ export default function App() {
   return (
     <>
     <StatusBar style='dark'/>
+    <FavoritesContextProvider>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
         title: 'All Categories',
@@ -68,25 +72,15 @@ export default function App() {
         <Stack.Screen 
         name="MealsOverview"
         component={MealsOverview}
-        // options={({route,navigation}) =>{
-        //   const catId = route.params.categoryId;
-
-        //   return {
-        //     title: catId
-        //   }
-        // }}
+     
         ></Stack.Screen>
         <Stack.Screen name='MealDetail' component={MealDetailScreen} options={{
           title: 'About The Meal'
         }}/>
-        {/* <Stack.Screen name='MealDetail' component={MealDetailScreen} options={{
-          headerRight: () =>{
-            return <Button title="Tap" onPress={}/>
-          }
-        }}/> */}
+       
       </Stack.Navigator>
     </NavigationContainer>
-    
+    </FavoritesContextProvider>
     </>
   );
 }
